@@ -3,11 +3,11 @@ import sys
 
 sys.path.append("/home/schmosby/python_dev/cardgame")
 
-from cardgame.deck import Deck
+from cardgame.deck import BaccaratDeck
 
 
 class TestDeck(unittest.TestCase):
-    deck = Deck()
+    deck = BaccaratDeck()
 
     def test_draw(self):
         deck_count = len(self.deck.deck)

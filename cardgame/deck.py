@@ -11,7 +11,7 @@ class Card:
 
 
 @dataclass
-class DeckSpecs:
+class Deck:
     values: List[int] = field(default_factory=lambda: list(range(1, 14)))
     suits: List[str] = field(
         default_factory=lambda: ["Hearts", "Diamonds", "Clubs", "Spades"]
@@ -26,13 +26,13 @@ class DeckSpecs:
 
 
 @dataclass
-class Deck:
-    deck: List[Card] = field(default_factory=lambda: DeckSpecs().n_deck(8))
+class BaccaratDeck:
+    deck: List[Card] = field(default_factory=lambda: Deck().n_deck(8))
 
     def shuffle_deck(self) -> None:
         shuffle(self.deck)
 
-    def draw(self, n: int = 8) -> Card:
+    def draw(self) -> Card:
         _card = self.deck[0]
         self.deck.remove(_card)
         return _card
