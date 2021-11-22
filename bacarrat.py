@@ -1,4 +1,5 @@
 from dataclasses import dataclass, field
+from enum import Enum
 from typing import List, Tuple
 from cardgame.deck import BaccaratDeck, Card, Hand
 
@@ -8,8 +9,8 @@ def main():
     baccarat_game.deal()
     baccarat_game.check_bet()
 
-    print("Player's Hand",baccarat_game.player)
-    print("Banker's Hand",baccarat_game.banker)
+    print("Player's Hand",baccarat_game.player_hand)
+    print("Banker's Hand",baccarat_game.banker_hand)
 
     print("Player FaceCount: ", baccarat_game.player_face_count)
     print("Banker FaceCount: ", baccarat_game.banker_face_count)
@@ -28,8 +29,8 @@ def main():
 @dataclass
 class BaccaratCardGame:
     deck = BaccaratDeck()
-    player: Hand = field(default_factory=lambda: [])
-    banker: Hand = field(default_factory=lambda: [])
+    player_hand: Hand = field(default_factory=lambda: [])
+    banker_hand: Hand = field(default_factory=lambda: [])
 
     player_face_count: int = field(default_factory=lambda: 0)
     banker_face_count: int = field(default_factory=lambda: 0)
@@ -43,8 +44,8 @@ class BaccaratCardGame:
 
     def deal(self) -> None:
         self.deck.shuffle_deck()
-        self.player = [self.deck.draw() for _ in range(3)]
-        self.banker = [self.deck.draw() for _ in range(3)]
+        self.player_hand = [self.deck.draw() for _ in range(3)]
+        self.banker_hand = [self.deck.draw() for _ in range(3)]
 
     def check_bet(self) -> None:
 
@@ -66,24 +67,30 @@ class BaccaratCardGame:
 
     def count_points(self) -> None:
 
-        for player in self.player:
-            self.player_points += player.value if player.value < 10 else 0
+        for card in self.player_hand:
+            self.player_points += card.value if card.value < 10 else 0
 
-        for banker in self.banker:
-            self.banker_points += banker.value if banker.value < 10 else 0
+        for card in self.banker_hand:
+            self.banker_points += card.value if card.value < 10 else 0
 
         self.player_points = self.player_points % 10
         self.banker_points = self.banker_points % 10
 
     def count_faces(self) -> None:
 
-        for player in self.player:
-            if player.value in range(11, 14):
+        for card in self.player_hand:
+            if card.value in range(11, 14):
                 self.player_face_count += 1
 
-        for banker in self.banker:
-            if banker.value in range(11, 14):
+        for card in self.banker_hand:
+            if card.value in range(11, 14):
                 self.banker_face_count += 1
+
+
+
+
+
+
 
 
 if __name__ == "__main__":
